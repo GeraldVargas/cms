@@ -1,4 +1,7 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "dist"
+  "outputDirectory": "dist",
+  "env": {
+    "VITE_API_URL": "https://cms-1-c6k8.onrender.com"
+  }
 }

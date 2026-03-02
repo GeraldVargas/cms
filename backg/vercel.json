@@ -15,6 +15,7 @@
   "env": {
     "MONGODB_URI": "@mongodb_uri",
     "JWT_SECRET": "@jwt_secret",
-    "PORT": "3000"
+    "PORT": "3000",
+    "FRONTEND_URL": "https://cms-eta-sable.vercel.app"
   }
 }
