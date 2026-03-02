@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import API_URL from '../config/api';
 
 const sanitizarHTML = (html) => {
   if (!html || typeof html !== 'string') return html;
@@ -16,7 +17,7 @@ const TarjetaNoticia = ({ noticia, esPrimera }) => {
     : '';
 
   const esHTML = (s) => typeof s === 'string' && s.trim().startsWith('<');
-  const urlImg = noticia.imagen ? `http://localhost:3000/uploads/${noticia.imagen}` : null;
+  const urlImg = noticia.imagen ? `${API_URL}/uploads/${noticia.imagen}` : null;
 
   const onLoad = (e) => setDims({ w: e.target.naturalWidth, h: e.target.naturalHeight });
   const isLandscape = dims ? dims.w > dims.h : null;
@@ -72,7 +73,7 @@ const Inicio = () => {
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/api/noticias')
+    axios.get(`${API_URL}/api/noticias`)
       .then(r => setNoticias(Array.isArray(r.data) ? r.data : []))
       .catch(() => setNoticias([]))
       .finally(() => setCargando(false));

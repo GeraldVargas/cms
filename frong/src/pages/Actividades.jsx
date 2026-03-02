@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import API_URL from '../config/api';
 import RichEditor from '../components/RichEditor';
 
 const Actividades = () => {
@@ -16,7 +17,7 @@ const Actividades = () => {
 
   const obtener = async () => {
     try {
-      const r = await axios.get('http://localhost:3000/api/actividades');
+      const r = await axios.get(`${API_URL}/api/actividades`);
       setActividades(Array.isArray(r.data) ? r.data : []);
     } catch (e) { console.error(e); }
   };
@@ -47,9 +48,9 @@ const Actividades = () => {
 
       const cfg = { headers: { 'Content-Type': 'multipart/form-data' } };
       if (idActual) {
-        await axios.put(`http://localhost:3000/api/actividades/${idActual}`, fd, cfg);
+        await axios.put(`${API_URL}/api/actividades/${idActual}`, fd, cfg);
       } else {
-        await axios.post('http://localhost:3000/api/actividades', fd, cfg);
+        await axios.post(`${API_URL}/api/actividades`, fd, cfg);
       }
       limpiar();
       obtener();
@@ -72,7 +73,7 @@ const Actividades = () => {
     editandoIdRef.current = a._id;
     setImagen(null);
     setImagenActual(a.imagen || '');
-    setPreviewUrl(a.imagen ? `http://localhost:3000/uploads/${a.imagen}` : '');
+    setPreviewUrl(a.imagen ? `${API_URL}/uploads/${a.imagen}` : '');
     setMostrarFormulario(true);
     window.scrollTo(0, 0);
   };
@@ -80,7 +81,7 @@ const Actividades = () => {
   const eliminar = async (id) => {
     if (!window.confirm('¿Borrar esta actividad?')) return;
     try {
-      await axios.delete(`http://localhost:3000/api/actividades/${id}`);
+      await axios.delete(`${API_URL}/api/actividades/${id}`);
       obtener();
     } catch { alert('Error al eliminar'); }
   };
@@ -182,7 +183,7 @@ const Actividades = () => {
                     <button
                       type="button"
                       style={{ marginTop:6, fontSize:12, color:'var(--beige-oscuro)', background:'none', border:'none', cursor:'pointer', padding:0, textDecoration:'underline' }}
-                      onClick={() => { setImagen(null); setPreviewUrl(imagenActual ? `http://localhost:3000/uploads/${imagenActual}` : ''); }}
+                      onClick={() => { setImagen(null); setPreviewUrl(imagenActual ? `${API_URL}/uploads/${imagenActual}` : ''); }}
                     >
                       Cancelar cambio
                     </button>
@@ -235,7 +236,7 @@ const Actividades = () => {
                 <td>
                   {a.imagen
                     ? <img
-                        src={`http://localhost:3000/uploads/${a.imagen}`}
+                        src={`${API_URL}/uploads/${a.imagen}`}
                         alt={a.titulo}
                         className="tabla-thumb"
                         onError={e => { e.target.style.display='none'; }}

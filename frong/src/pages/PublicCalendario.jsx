@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import API_URL from '../config/api';
 
 const sanitizarHTML = (html) => {
   if (!html || typeof html !== 'string') return html;
@@ -12,7 +13,7 @@ const TarjetaActividad = ({ actividad }) => {
   const [dims, setDims] = useState(null);
 
   const urlImg = actividad.imagen
-    ? `http://localhost:3000/uploads/${actividad.imagen}`
+    ? `${API_URL}/uploads/${actividad.imagen}`
     : null;
 
   const onLoad = (e) => setDims({ w: e.target.naturalWidth, h: e.target.naturalHeight });
@@ -148,7 +149,7 @@ const PublicCalendario = () => {
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/api/actividades')
+    axios.get(`${API_URL}/api/actividades`)
       .then(r => setActividades(Array.isArray(r.data) ? r.data : []))
       .catch(() => setActividades([]))
       .finally(() => setCargando(false));
