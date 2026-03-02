@@ -1,0 +1,5 @@
+{
+  "buildCommand": "npm install",
+  "startCommand": "node index.js",
+  "nodeVersion": "22.22.0"
+}
