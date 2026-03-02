@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import API_URL from '../config/api';
 
@@ -7,6 +8,22 @@ const sanitizarHTML = (html) => {
   return html
     .replace(/<font\s+color="([^"]+)">/gi, '<span style="color:$1">')
     .replace(/<\/font>/gi, '</span>');
+};
+
+const truncarHTML = (html, limite = 300) => {
+  if (!html) return '';
+  // Quitar tags HTML para contar caracteres
+  const sinHTML = html.replace(/<[^>]*>/g, '');
+  if (sinHTML.length <= limite) return html;
+  
+  // Si es HTML, truncar de forma segura
+  if (html.trim().startsWith('<')) {
+    const truncado = html.substring(0, limite);
+    // Reemplazar la última parte por puntos suspensivos
+    return truncado.substring(0, truncado.lastIndexOf(' ') || limite) + '...';
+  }
+  
+  return sinHTML.substring(0, limite) + '...';
 };
 
 const TarjetaNoticia = ({ noticia, esPrimera }) => {
@@ -23,6 +40,8 @@ const TarjetaNoticia = ({ noticia, esPrimera }) => {
   const isLandscape = dims ? dims.w > dims.h : null;
 
   const contenidoLimpio = sanitizarHTML(noticia.contenido);
+  const contenidoTruncado = truncarHTML(contenidoLimpio, 300);
+  const tieneContenidoAlargo = contenidoLimpio.replace(/<[^>]*>/g, '').length > 300;
 
   const Texto = () => (
     <div className="ni-texto">
@@ -30,13 +49,18 @@ const TarjetaNoticia = ({ noticia, esPrimera }) => {
       <h2 className={`ni-titulo${esPrimera ? ' ni-titulo--grande' : ''}`}>
         {noticia.titulo}
       </h2>
-      {esHTML(contenidoLimpio)
+      {esHTML(contenidoTruncado)
         ? <div
             className="ni-resumen contenido-html"
-            dangerouslySetInnerHTML={{ __html: contenidoLimpio }}
+            dangerouslySetInnerHTML={{ __html: contenidoTruncado }}
           />
-        : <p className="ni-resumen">{noticia.contenido}</p>
+        : <p className="ni-resumen">{contenidoTruncado}</p>
       }
+      {tieneContenidoAlargo && (
+        <Link to={`/noticia/${noticia._id}`} className="btn-leer-mas">
+          Leer más →
+        </Link>
+      )}
     </div>
   );
 
