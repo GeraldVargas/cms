@@ -1,0 +1,74 @@
+# 🚀 RESUMEN DE CAMBIOS PARA DEPLOY
+
+## ✅ YA HECHO
+
+### Archivos Creados:
+- ✅ `.env.example` (backend y frontend)
+- ✅ `.gitignore` 
+- ✅ `vercel.json` (backend y frontend)
+- ✅ `DEPLOY_GUIDE.md` (instrucciones detalladas)
+- ✅ `src/config/api.js` (centraliza URL del API)
+
+### Configuración Actualizada:
+- ✅ Backend: CORS configurado para producción
+- ✅ Frontend: Todas las URLs del API usando variables de entorno
+- ✅ Archivos listos para Vercel + Railway
+
+---
+
+## 🎯 PRÓXIMOS PASOS (Para ti)
+
+### 1. **Actualizar .env del backend** 
+En `backg/.env`, agregar:
+```
+FRONTEND_URL=https://tu-app.vercel.app
+```
+(Dejarás la URL temporal mientras despliegas)
+
+### 2. **Push a GitHub**
+```bash
+git add .
+git commit -m "Preparar para deploy: Vercel + Railway"
+git push origin master
+```
+
+### 3. **Deploy Backend en Railway** ⏱️ 5 minutos
+Seguir el DEPLOY_GUIDE.md → Sección "2️⃣ DEPLOY DEL BACKEND"
+
+### 4. **Deploy Frontend en Vercel** ⏱️ 3 minutos  
+Seguir el DEPLOY_GUIDE.md → Sección "3️⃣ DEPLOY DEL FRONTEND"
+
+### 5. **Actualizar URLs de Producción**
+Una vez obtengas las URLs de Railway y Vercel:
+- Actualizar `backg/.env` con `FRONTEND_URL` de Vercel
+- Actualizar `frong/.env.production` con `VITE_API_URL` de Railway
+
+### 6. **Push final**
+```bash
+git add .
+git commit -m "Actualizar URLs de producción"
+git push origin master
+```
+
+---
+
+## 📊 URL DURANTE DEPLOY
+
+| Servicio | URL Mientras se Deploya |
+|----------|------------------------|
+| Frontend | Vercel | https://cms-[random].vercel.app |
+| Backend | Railway | https://cms-production-[random].up.railway.app |
+| MongoDB | Ya existe | mongodb+srv://... |
+
+---
+
+## 🔧 INSTALACIONES REQUERIDAS
+
+```bash
+npm install -g @railway/cli
+npm install -g vercel
+```
+
+---
+
+Ver `DEPLOY_GUIDE.md` para instrucciones paso a paso.

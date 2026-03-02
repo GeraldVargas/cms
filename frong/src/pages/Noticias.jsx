@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import API_URL from '../config/api';
 import RichEditor from '../components/RichEditor';
 
 const Noticias = () => {
@@ -14,7 +15,7 @@ const Noticias = () => {
 
   const obtenerNoticias = async () => {
     try {
-      const r = await axios.get('http://localhost:3000/api/noticias');
+      const r = await axios.get(`${API_URL}/api/noticias`);
       setNoticias(Array.isArray(r.data) ? r.data : []);
     } catch (e) { console.error(e); }
   };
@@ -37,9 +38,9 @@ const Noticias = () => {
       const cfg = { headers: { 'Content-Type': 'multipart/form-data' } };
 
       if (idActual) {
-        await axios.put(`http://localhost:3000/api/noticias/${idActual}`, fd, cfg);
+        await axios.put(`${API_URL}/api/noticias/${idActual}`, fd, cfg);
       } else {
-        await axios.post('http://localhost:3000/api/noticias', fd, cfg);
+        await axios.post(`${API_URL}/api/noticias`, fd, cfg);
       }
       limpiarFormulario();
       obtenerNoticias();
@@ -62,7 +63,7 @@ const Noticias = () => {
   const eliminarNoticia = async (id) => {
     if (!window.confirm('¿Borrar esta noticia?')) return;
     try {
-      await axios.delete(`http://localhost:3000/api/noticias/${id}`);
+      await axios.delete(`${API_URL}/api/noticias/${id}`);
       obtenerNoticias();
     } catch (e) { alert('Error al eliminar'); }
   };
@@ -156,7 +157,7 @@ const Noticias = () => {
               <tr key={n._id}>
                 <td>
                   {n.imagen
-                    ? <img src={`http://localhost:3000/uploads/${n.imagen}`} alt={n.titulo} className="tabla-thumb" />
+                    ? <img src={`${API_URL}/uploads/${n.imagen}`} alt={n.titulo} className="tabla-thumb" />
                     : <div className="tabla-thumb" style={{ background:'var(--gris-claro)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:18 }}>📷</div>
                   }
                 </td>
